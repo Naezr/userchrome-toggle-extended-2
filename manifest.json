@@ -1,5 +1,5 @@
 {
-	"manifest_version": 3,
+	"manifest_version": 2,
 	"name": "Userchrome Toggle Extended",
 	"version": "2.0",
 	"description": "Allows you to toggle css styles on the fly",
@@ -14,16 +14,15 @@
 		}
 	},
 
-	"action": {
+	"browser_action": {
 		"default_title": "Toggle css style",
 		"default_icon": "icons/uct-alt-logo.svg",
 		"default_area": "navbar"
 	},
   
 	"background": {
-		"scripts": [
-			"uct-background.js"
-		]
+		"scripts": ["uct-background.js"],
+		"persistent": true
 	},
 
 	"options_ui": {
