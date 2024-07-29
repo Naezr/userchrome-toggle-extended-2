@@ -9,6 +9,7 @@ this.defaultSettings = {
 
 	// general
 	allowMultiple: false,
+	useLastWindowToggles: false,
 
 	// toggles
 	toggles: [
@@ -85,8 +86,11 @@ this.lastWindowId = undefined;
 this.secondToLastWindowId = undefined;
 
 async function windowCreated(window) {
+	await updateIds(window.id);
+	
   globalThis.perWindowToggles.set(window.id, await getToggles());
 	await updateTitlePrefixes();
+	console.log(`Window ${windowId} created!`);
 }
 
 async function windowRemoved(windowId) {
@@ -95,27 +99,38 @@ async function windowRemoved(windowId) {
 
 async function windowFocusChanged(windowId) {
 	if (windowId === browser.windows.WINDOW_ID_NONE) return;
+	await updateIds(windowId);
 
 	let toggles = perWindowToggles.get(windowId);
 
 	if (toggles === undefined) 
 		globalThis.perWindowToggles.set(windowId, await getToggles());
 
-	globalThis.secondToLastWindowId = lastWindowId;
-	globalThis.lastWindowId = windowId;
-
 	await updateTitlePrefixes();
 	console.log(`Window ${globalThis.lastWindowId} is focused now. Window ${globalThis.secondToLastWindowId} was focused before it.`)
 }
 
+// getting proper toggles for new window
 async function getToggles() {
 	const settings = await browser.storage.local.get();
 
 	let toggles = [];
-  for (let i = 0; i < settings.toggles.length; i++)
-    toggles.push({ state: settings.toggles[i].default_state });
+  for (let i = 0; i < settings.toggles.length; i++) {
+		if (settings.useLastWindowToggles && secondToLastWindowId != undefined) {
+    	toggles.push({ state: globalThis.perWindowToggles.get(secondToLastWindowId)[i].state });
+			console.log(`Used toggles from window ${secondToLastWindowId}!`);
+		} else {
+			toggles.push({ state: settings.toggles[i].default_state });
+		}
+	}
 
 	return toggles;
+}
+
+// updating Ids
+async function updateIds(windowId) {
+	globalThis.secondToLastWindowId = lastWindowId;
+	globalThis.lastWindowId = windowId;
 }
 
 // toggling toggles

@@ -159,6 +159,17 @@ label:has(input[type="checkbox"]){
 	cursor: pointer;
 }
 
+/* `for new windows` checkbox state text */
+.use-last-window-toggles-label:has(
+	#use-last-window-toggles:checked
+) .use-last-window-toggles-text::after {
+	content: "apply toggles from last active window";
+}
+
+.use-last-window-toggles-text::after{
+	content: "apply default toggles";
+}
+
 /* `status` checkbox state text */
 .toggle-enable-label:has(
 	.toggle-enable:checked
