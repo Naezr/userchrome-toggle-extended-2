@@ -6,7 +6,7 @@ body{
 @media (prefers-color-scheme: dark) {
 	body{
 		--bg: #23222B;
-		--bg-2: #383844;
+		--bg-2: #343440;
 		--text: var(--light-text);
 		--yes-col: #20E60A;
 		--no-col: #ff957a;
