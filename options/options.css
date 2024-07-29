@@ -1,0 +1,185 @@
+body{
+	--light-text: #f7f7f7;
+	--dark-text: #181818;
+}
+
+@media (prefers-color-scheme: dark) {
+	body{
+		--bg: #23222B;
+		--bg-2: #383844;
+		--text: var(--light-text);
+		--yes-col: #20E60A;
+		--no-col: #ff957a;
+		--ac-col: #87CEEB;
+	}
+}
+
+@media (prefers-color-scheme: light) {
+	body{
+		--bg: #ffffff;
+		--bg-2: #E6E6E6;
+		--text: var(--dark-text);
+		--yes-col: #008000;
+		--no-col: #8B0A1A;
+		--ac-col: #0047AB;
+	}
+}
+
+body{
+	background-color: var(--bg);
+	color: var(--text);
+	font-family: sans-serif;
+	user-select: none;
+}
+
+/* header text styles */
+.main-header{
+	display: inline-block;
+	font-size: 30px;
+	margin: 0 0.65ex 0 0;
+}
+
+.shiny{
+  background: linear-gradient(to right, #3572EF, #3ABEF9, #A7E6FF, #3572EF);
+  background-size: 500% 100%;
+  animation: rainbow 13s linear infinite;
+  background-clip: text;
+  color: transparent;
+}
+
+@keyframes rainbow {
+  0%   {background-position: 0% 50%;}
+  100% {background-position: 500% 50%;}
+}
+
+/* buttons styles */
+.button{
+	--button-color: var(--bg-2);
+	cursor: pointer;
+	background-color: var(--button-color);
+	color: var(--text);
+	border: 1px solid color-mix(in srgb, var(--button-color), var(--text) 15%);
+	border-radius: 5px;
+	&:hover{background-color: color-mix(in srgb, var(--button-color), var(--text) 20%);}
+}
+
+#apply-button{
+	--button-color: #408deb;
+	color: var(--light-text);
+}
+
+#reset-button{
+	--button-color: #F8192B;
+	color: var(--light-text)
+}
+
+.buttons-container{
+	display: inline-block;
+	margin-top: 5px;
+	margin-bottom: 10px;
+
+	input{margin-inline-end: 4px}
+
+	&:has(#apply-button[clicked])::after{content: "Applied!";}
+	&:has(#reset-button[clicked])::after{content: "Reset!";}
+}
+
+/* text fields styles */
+input[type="text"]{
+	background-color: color-mix(in srgb, var(--bg) 50%, transparent);
+	color: var(--text);
+
+	border: none;
+	outline: none;
+	&:focus{outline: 1px solid var(--ac-col)}
+
+	border-radius: 5px;
+	padding: 3px 6px;
+}
+
+/* toggle name input styles */
+.toggle-name-container{
+	display: flex;
+  justify-content: space-between;
+	border-radius: 10px;
+	margin-left: -6px;
+}
+
+.toggle-name{
+	background-color: transparent !important;
+	color: var(--text);
+	border: none !important;
+	border-radius: 10px !important;
+	width: 50%;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.toggle-hotkey{
+	padding-inline-end: 6px;
+	font-size: 16px;
+	padding-block: 5px;
+	opacity: 0.4;
+}
+
+/* boxes styles */
+.toggles-container{
+	display: grid;
+	grid-template-columns: repeat(2, auto);
+	grid-gap: 5px;
+	margin-block: 5px;
+}
+
+.toggle-box, .general-box{
+	padding: 5px 10px;
+	border-radius: 15px;
+	background-color: var(--bg-2);
+}
+
+.header{
+	font-size: 20px;
+	font-weight: bold;
+	display: inline-block;
+	margin-bottom: 5px;
+}
+
+.list-text{
+	display: inline-block;
+	opacity: 0.8;
+	width: 70px;
+}
+
+label{
+	display: inline-block;
+	width: -moz-available;
+	margin-block: 2px;
+}
+
+label:has(input[type="checkbox"]){
+	cursor: pointer;
+}
+
+/* `status` checkbox state text */
+.toggle-enable-label:has(
+	.toggle-enable:checked
+) .toggle-enable-text::after {
+	content: "Enabled";
+	color: var(--yes-col);
+}
+
+.toggle-enable-text::after{
+	content: "Disabled";
+	color: var(--no-col);
+}
+
+/* `default state` checkbox state text */
+.toggle-default-state-label:has(
+	.toggle-default-state:checked
+) .toggle-default-state-text::after {
+	content: "Toggled";
+	color: var(--ac-col);
+}
+
+.toggle-default-state-text::after{
+	content: "Not toggled";
+}

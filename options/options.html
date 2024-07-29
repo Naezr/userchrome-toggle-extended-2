@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<script src="options.js"></script>
+		<link href="options.css" rel="stylesheet" />
+	</head>
+  
+  <body>
+
+		<div class="main-header">
+			<span>Userchrome Toggle</span>
+			<span class="shiny">Extended</span>
+		</div>
+
+		<br/>
+
+		<div class="buttons-container">
+			<input type="button" value="Apply changes" class="button" id="apply-button"/>
+			<input type="button" value="Reset settings" class="button" id="reset-button"/>
+		</div>
+
+		<div class="general-box">
+			<span class="header">General settings</span>
+
+			<label class="allow-multiple-label">
+				<input type="checkbox" id="allow-multiple" />
+				<span>Allow multiple styles to be active together</span>
+		  </label>
+		</div>
+
+		<div class="toggles-container">
+
+			<div class="toggle-box" id="toggle-box-1">
+
+				<div class="toggle-name-container">
+					<input type="text" value="Toggle 1" class="toggle-name" id="toggle-name-1"/>
+					<a class="toggle-hotkey" id="toggle-hotkey-1">?</a>
+				</div>
+
+				<label class="toggle-enable-label">
+					<span class="list-text">Status: </span>
+				  <input type="checkbox" class="toggle-enable" id="toggle-enable-1" />
+					<span class="toggle-enable-text"></span>
+				</label>
+				
+				<br/>
+
+				<label class="toggle-prefix-label">
+					<span class="list-text">Prefix: </span>
+					<input type="text" class="toggle-prefix" id="toggle-prefix-1" />
+				</label>
+
+				<br/>
+
+				<label class="toggle-titlepreface-label" >
+					<span class="list-text">Selector: </span>
+					<input type="text" class="toggle-titlepreface" id="toggle-titlepreface-1" readonly/>
+				</label>
+				
+				<br/>
+
+				<label class="toggle-default-state-label">
+					<span class="list-text">Default: </span>
+					<input type="checkbox" class="toggle-default-state" id="toggle-default-state-1"/>
+					<span class="toggle-default-state-text"></span>
+				</label>
+				
+			</div>
+
+			<div class="toggle-box" id="toggle-box-2">
+
+				<div class="toggle-name-container">
+					<input type="text" value="Toggle 2" class="toggle-name" id="toggle-name-2"/>
+					<a class="toggle-hotkey" id="toggle-hotkey-2">?</a>
+				</div>
+
+				<label class="toggle-enable-label">
+					<span class="list-text">Status: </span>
+				  <input type="checkbox" class="toggle-enable" id="toggle-enable-2" />
+					<span class="toggle-enable-text"></span>
+				</label>
+				
+				<br/>
+
+				<label class="toggle-prefix-label">
+					<span class="list-text">Prefix: </span>
+					<input type="text" class="toggle-prefix" id="toggle-prefix-2" />
+				</label>
+
+				<br/>
+
+				<label class="toggle-titlepreface-label" >
+					<span class="list-text">Selector: </span>
+					<input type="text" class="toggle-titlepreface" id="toggle-titlepreface-2" readonly/>
+				</label>
+				
+				<br/>
+
+				<label class="toggle-default-state-label">
+					<span class="list-text">Default: </span>
+					<input type="checkbox" class="toggle-default-state" id="toggle-default-state-2"/>
+					<span class="toggle-default-state-text"></span>
+				</label>
+				
+			</div>
+
+			<div class="toggle-box" id="toggle-box-3">
+
+				<div class="toggle-name-container">
+					<input type="text" value="Toggle 3" class="toggle-name" id="toggle-name-3"/>
+					<a class="toggle-hotkey" id="toggle-hotkey-3">?</a>
+				</div>
+
+				<label class="toggle-enable-label">
+					<span class="list-text">Status: </span>
+				  <input type="checkbox" class="toggle-enable" id="toggle-enable-3" />
+					<span class="toggle-enable-text"></span>
+				</label>
+				
+				<br/>
+
+				<label class="toggle-prefix-label">
+					<span class="list-text">Prefix: </span>
+					<input type="text" class="toggle-prefix" id="toggle-prefix-3" />
+				</label>
+
+				<br/>
+
+				<label class="toggle-titlepreface-label" >
+					<span class="list-text">Selector: </span>
+					<input type="text" class="toggle-titlepreface" id="toggle-titlepreface-3" readonly/>
+				</label>
+				
+				<br/>
+
+				<label class="toggle-default-state-label">
+					<span class="list-text">Default: </span>
+					<input type="checkbox" class="toggle-default-state" id="toggle-default-state-3"/>
+					<span class="toggle-default-state-text"></span>
+				</label>
+				
+			</div>
+
+			<div class="toggle-box" id="toggle-box-4">
+
+				<div class="toggle-name-container">
+					<input type="text" value="Toggle 4" class="toggle-name" id="toggle-name-4"/>
+					<a class="toggle-hotkey" id="toggle-hotkey-4">?</a>
+				</div>
+
+				<label class="toggle-enable-label">
+					<span class="list-text">Status: </span>
+				  <input type="checkbox" class="toggle-enable" id="toggle-enable-4" />
+					<span class="toggle-enable-text"></span>
+				</label>
+				
+				<br/>
+
+				<label class="toggle-prefix-label">
+					<span class="list-text">Prefix: </span>
+					<input type="text" class="toggle-prefix" id="toggle-prefix-4" />
+				</label>
+
+				<br/>
+
+				<label class="toggle-titlepreface-label" >
+					<span class="list-text">Selector: </span>
+					<input type="text" class="toggle-titlepreface" id="toggle-titlepreface-4" readonly/>
+				</label>
+				
+				<br/>
+
+				<label class="toggle-default-state-label">
+					<span class="list-text">Default: </span>
+					<input type="checkbox" class="toggle-default-state" id="toggle-default-state-4"/>
+					<span class="toggle-default-state-text"></span>
+				</label>
+				
+			</div>
+
+			<div class="toggle-box" id="toggle-box-5">
+
+				<div class="toggle-name-container">
+					<input type="text" value="Toggle 5" class="toggle-name" id="toggle-name-5"/>
+					<a class="toggle-hotkey" id="toggle-hotkey-5">?</a>
+				</div>
+
+				<label class="toggle-enable-label">
+					<span class="list-text">Status: </span>
+				  <input type="checkbox" class="toggle-enable" id="toggle-enable-5" />
+					<span class="toggle-enable-text"></span>
+				</label>
+				
+				<br/>
+
+				<label class="toggle-prefix-label">
+					<span class="list-text">Prefix: </span>
+					<input type="text" class="toggle-prefix" id="toggle-prefix-5" />
+				</label>
+
+				<br/>
+
+				<label class="toggle-titlepreface-label" >
+					<span class="list-text">Selector: </span>
+					<input type="text" class="toggle-titlepreface" id="toggle-titlepreface-5" readonly/>
+				</label>
+				
+				<br/>
+
+				<label class="toggle-default-state-label">
+					<span class="list-text">Default: </span>
+					<input type="checkbox" class="toggle-default-state" id="toggle-default-state-5"/>
+					<span class="toggle-default-state-text"></span>
+				</label>
+				
+			</div>
+
+			<div class="toggle-box" id="toggle-box-6">
+
+				<div class="toggle-name-container">
+					<input type="text" value="Toggle 6" class="toggle-name" id="toggle-name-6"/>
+					<a class="toggle-hotkey" id="toggle-hotkey-6">?</a>
+				</div>
+
+				<label class="toggle-enable-label">
+					<span class="list-text">Status: </span>
+				  <input type="checkbox" class="toggle-enable" id="toggle-enable-6" />
+					<span class="toggle-enable-text"></span>
+				</label>
+				
+				<br/>
+
+				<label class="toggle-prefix-label">
+					<span class="list-text">Prefix: </span>
+					<input type="text" class="toggle-prefix" id="toggle-prefix-6" />
+				</label>
+
+				<br/>
+
+				<label class="toggle-titlepreface-label" >
+					<span class="list-text">Selector: </span>
+					<input type="text" class="toggle-titlepreface" id="toggle-titlepreface-6" readonly/>
+				</label>
+				
+				<br/>
+
+				<label class="toggle-default-state-label">
+					<span class="list-text">Default: </span>
+					<input type="checkbox" class="toggle-default-state" id="toggle-default-state-6"/>
+					<span class="toggle-default-state-text"></span>
+				</label>
+				
+			</div>
+
+		</div>
+
+  </body>
+
+</html>
