@@ -21,7 +21,7 @@
 	},
   
 	"background": {
-		"scripts": ["uct-background.js"]
+		"scripts": ["background.js"]
 	},
 
 	"options_ui": {
