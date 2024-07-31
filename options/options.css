@@ -84,6 +84,15 @@ body{
 	&:has(#reset-button[clicked])::after{content: "Reset!";}
 }
 
+/* dropdown menus styles */
+select{
+	border-radius: 5px;
+	border: none;
+	color: var(--text);
+	background-color: color-mix(in srgb, var(--bg-2) 90%, var(--text));
+	&:hover{background-color: color-mix(in srgb, var(--bg-2) 80%, var(--text));}
+}
+
 /* text fields styles */
 input[type="text"]{
 	background-color: color-mix(in srgb, var(--bg) 50%, transparent);
@@ -157,17 +166,6 @@ label{
 
 label:has(input[type="checkbox"]){
 	cursor: pointer;
-}
-
-/* `for new windows` checkbox state text */
-.use-last-window-toggles-label:has(
-	#use-last-window-toggles:checked
-) .use-last-window-toggles-text::after {
-	content: "apply toggles from last active window";
-}
-
-.use-last-window-toggles-text::after{
-	content: "apply default toggles";
 }
 
 /* `status` checkbox state text */

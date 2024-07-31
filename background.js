@@ -10,6 +10,7 @@ this.defaultSettings = {
 	// general
 	allowMultiple: false,
 	useLastWindowToggles: false,
+	keepToggles: false,
 
 	// toggles
 	toggles: [
@@ -54,7 +55,7 @@ this.defaultSettings = {
 
 // settings initialization
 async function initSettings() {
-	const settings = await browser.storage.local.get();
+	let settings = await browser.storage.local.get();
   
 	// reset settings if needed
 	if (settings.initialized != true || settings.settingsVer != "2") {
@@ -63,6 +64,14 @@ async function initSettings() {
 		console.log('Settings was reset!');
 		browser.runtime.openOptionsPage();
 	}
+
+	// remove preToggles if not needed
+	if (!settings.keepToggles && settings.preToggles != undefined) {
+		settings.preToggles = undefined;
+		await browser.storage.local.set(settings);
+		console.log('Removed session toggles!')
+	}
+
 	console.log('Settings initialized!');
 }
 
@@ -71,8 +80,10 @@ async function windowCreated(window) { // event
 	await getSessionStorage();
 	await updateIds(window.id);
 	
+	// init toggles for new window
   globalThis.perWindowToggles.set(window.id, await getToggles());
 	await updateTitlePrefixes();
+	
 	console.log(`Window ${windowId} created!`);
 	await saveSessionStorage();
 }
@@ -85,20 +96,26 @@ async function windowRemoved(windowId) { // event
 
 async function windowFocusChanged(windowId) { // event
 	if (windowId === browser.windows.WINDOW_ID_NONE) return;
+	const settings = await browser.storage.local.get();
 	await getSessionStorage();
 	await updateIds(windowId);
 
 	let toggles = perWindowToggles.get(windowId);
 
+	// init toggles for window if not
 	if (toggles === undefined) 
 		globalThis.perWindowToggles.set(windowId, await getToggles());
+
+	// save current window toggles for next session
+	if (settings.keepToggles)
+		keepToggles();
 
 	await updateTitlePrefixes();
 	console.log(`Window ${globalThis.lastWindowId} is focused now. Window ${globalThis.secondToLastWindowId} was focused before it.`);
 	await saveSessionStorage();
 }
 
-// getting toggles from session storage
+// getting data from session storage
 async function getSessionStorage() {
 	let storage = await browser.storage.session.get();
 
@@ -115,7 +132,7 @@ async function getSessionStorage() {
 	}
 }
 
-// saving toggles to session storage
+// saving data to session storage
 async function saveSessionStorage() {
 	let data = {};
 
@@ -130,16 +147,34 @@ async function saveSessionStorage() {
 // getting proper toggles for new window
 async function getToggles() {
 	const settings = await browser.storage.local.get();
+	let storage = await browser.storage.session.get();
+	let preTogglesUsed = false;
 
 	let toggles = [];
   for (let i = 0; i < settings.toggles.length; i++) {
+
+		// return toggles from previous window
 		if (settings.useLastWindowToggles && secondToLastWindowId != undefined) {
     	toggles.push({ state: globalThis.perWindowToggles.get(secondToLastWindowId)[i].state });
-			console.log(`Used toggles from window ${secondToLastWindowId}!`);
-		} else {
+			console.log(`Used toggle from window ${secondToLastWindowId}!`);
+		}
+
+		// return toggles from previous session
+		else if (settings.preToggles != undefined && settings.keepToggles == true && storage.preTogglesUsed != true) {
+			toggles.push({ state: settings.preToggles[i].state });
+			preTogglesUsed = true;
+			console.log(`Used toggle from previous session!`);
+		}
+
+		// return defaults
+		else {
 			toggles.push({ state: settings.toggles[i].default_state });
 		}
 	}
+
+	if (preTogglesUsed) 
+		storage.preTogglesUsed = preTogglesUsed;
+		await browser.storage.session.set(storage);
 
 	return toggles;
 }
@@ -148,6 +183,13 @@ async function getToggles() {
 async function updateIds(windowId) {
 	globalThis.secondToLastWindowId = lastWindowId;
 	globalThis.lastWindowId = windowId;
+}
+
+// saving last window toggles to local storage
+async function keepToggles() {
+	let settings = await browser.storage.local.get();
+	settings.preToggles = globalThis.perWindowToggles.get(lastWindowId);
+	await browser.storage.local.set(settings);
 }
 
 // toggling toggles
@@ -170,6 +212,10 @@ async function userToggle(name) { // event
 		globalThis.perWindowToggles.set(lastWindowId, toggles);
 		console.log(`Toggled style ${name} for window ${lastWindowId}!`);
 	}
+
+	// save current window toggles for next session
+	if (settings.keepToggles)
+		keepToggles();
 
 	await updateTitlePrefixes();
 	await saveSessionStorage();

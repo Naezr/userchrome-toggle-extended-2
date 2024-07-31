@@ -31,11 +31,21 @@
 
 			<br/>
 
-			<label class="use-last-window-toggles-label">
-				<span>For new windows</span>
-				<input type="checkbox" id="use-last-window-toggles"/>
-				<span class="use-last-window-toggles-text"></span>
-		  </label>
+			<div class="use-last-window-toggles-label">
+				<span>For new windows apply</span>
+				<select id="use-last-window-toggles">
+					<option value="false">Default toggles</option>
+					<option value="true">Toggles from last active window</option>
+				</select>
+		  </div>
+
+			<div class="keep-toggles-label">
+				On startup apply
+				<select id="keep-toggles">
+					<option value="false">Default toggles</option>
+					<option value="true">Toggles from last previous session window</option>
+				</select>
+			</div>
 
 		</div>
 

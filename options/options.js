@@ -53,7 +53,8 @@ async function fillCheckboxes() {
 
 	// general settings
 	document.getElementById(`allow-multiple`).checked = settings.allowMultiple;
-	document.getElementById(`use-last-window-toggles`).checked = settings.useLastWindowToggles;
+	document.getElementById(`use-last-window-toggles`).value = settings.useLastWindowToggles;
+	document.getElementById(`keep-toggles`).value = settings.keepToggles;
 	
 	// toggles
 	for (let i = 0; i < settings.toggles.length; i++) {
@@ -95,7 +96,8 @@ async function saveSettings() {
 
 	// save general settings
 	settings.allowMultiple = document.getElementById(`allow-multiple`).checked;
-	settings.useLastWindowToggles = document.getElementById(`use-last-window-toggles`).checked;
+	settings.useLastWindowToggles = (document.getElementById(`use-last-window-toggles`).value == "true");
+	settings.keepToggles = (document.getElementById(`keep-toggles`).value == "true");
 
 	// save toggles settings
 	for (let i = 0; i < settings.toggles.length; i++) {
