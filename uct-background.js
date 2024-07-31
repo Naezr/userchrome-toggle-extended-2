@@ -52,20 +52,6 @@ this.defaultSettings = {
 	]
 }
 
-// main
-async function main() {
-	// call functions
-	await initSettings();
-
-	// add listeners
-	browser.commands.onCommand.addListener(userToggle);    // listen hotkeys
-	browser.runtime.onMessage.addListener(handleMessage);  // listen messages
-
-	browser.windows.onCreated.addListener(windowCreated);
-	browser.windows.onRemoved.addListener(windowRemoved);
-	browser.windows.onFocusChanged.addListener(windowFocusChanged);
-}
-
 // settings initialization
 async function initSettings() {
 	const settings = await browser.storage.local.get();
@@ -81,24 +67,25 @@ async function initSettings() {
 }
 
 // windows handling
-this.perWindowToggles = new Map();
-this.lastWindowId = undefined;
-this.secondToLastWindowId = undefined;
-
-async function windowCreated(window) {
+async function windowCreated(window) { // event
+	await getSessionStorage();
 	await updateIds(window.id);
 	
   globalThis.perWindowToggles.set(window.id, await getToggles());
 	await updateTitlePrefixes();
 	console.log(`Window ${windowId} created!`);
+	await saveSessionStorage();
 }
 
-async function windowRemoved(windowId) {
+async function windowRemoved(windowId) { // event
+	await getSessionStorage();
 	globalThis.perWindowToggles.delete(windowId);
+	await saveSessionStorage();
 }
 
-async function windowFocusChanged(windowId) {
+async function windowFocusChanged(windowId) { // event
 	if (windowId === browser.windows.WINDOW_ID_NONE) return;
+	await getSessionStorage();
 	await updateIds(windowId);
 
 	let toggles = perWindowToggles.get(windowId);
@@ -107,7 +94,37 @@ async function windowFocusChanged(windowId) {
 		globalThis.perWindowToggles.set(windowId, await getToggles());
 
 	await updateTitlePrefixes();
-	console.log(`Window ${globalThis.lastWindowId} is focused now. Window ${globalThis.secondToLastWindowId} was focused before it.`)
+	console.log(`Window ${globalThis.lastWindowId} is focused now. Window ${globalThis.secondToLastWindowId} was focused before it.`);
+	await saveSessionStorage();
+}
+
+// getting toggles from session storage
+async function getSessionStorage() {
+	let storage = await browser.storage.session.get();
+
+	if (storage.initialized == true) {
+		globalThis.perWindowToggles = storage.perWindowToggles;
+		globalThis.lastWindowId = storage.lastWindowId;
+		globalThis.secondToLastWindowId = storage.secondToLastWindowId;
+	} else {
+		globalThis.perWindowToggles = new Map();
+		globalThis.lastWindowId = undefined;
+		globalThis.secondToLastWindowId = undefined;
+
+		console.log('Data initialized!');
+	}
+}
+
+// saving toggles to session storage
+async function saveSessionStorage() {
+	let data = {};
+
+	data.initialized = true;
+	data.perWindowToggles = globalThis.perWindowToggles;
+	data.lastWindowId = globalThis.lastWindowId;
+	data.secondToLastWindowId = globalThis.secondToLastWindowId;
+
+	await browser.storage.session.set(data);
 }
 
 // getting proper toggles for new window
@@ -134,7 +151,9 @@ async function updateIds(windowId) {
 }
 
 // toggling toggles
-async function userToggle(name) {
+async function userToggle(name) { // event
+	await getSessionStorage();
+
 	let toggleId = name - 1;
 	let toggles = globalThis.perWindowToggles.get(lastWindowId);
 	const settings = await browser.storage.local.get();
@@ -153,6 +172,7 @@ async function userToggle(name) {
 	}
 
 	await updateTitlePrefixes();
+	await saveSessionStorage();
 }
 
 // updating prefixes for all windows
@@ -178,7 +198,7 @@ async function updateTitlePrefixes() {
 }
 
 // message handling
-function handleMessage(message, sender, sendResponse) {
+function handleMessage(message, sender, sendResponse) { // event
 
 	// handle request to get default settings
 	if (message.type == 'getDefaultSettings')
@@ -188,4 +208,14 @@ function handleMessage(message, sender, sendResponse) {
 
 }
 
-main();
+// main
+
+initSettings();
+
+// add listeners
+browser.commands.onCommand.addListener(userToggle);    // listen hotkeys
+browser.runtime.onMessage.addListener(handleMessage);  // listen messages
+
+browser.windows.onCreated.addListener(windowCreated);
+browser.windows.onRemoved.addListener(windowRemoved);
+browser.windows.onFocusChanged.addListener(windowFocusChanged);
