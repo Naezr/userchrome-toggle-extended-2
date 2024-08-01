@@ -88,10 +88,13 @@ async function windowCreated(window) { // event
 	await saveSessionStorage();
 }
 
-async function windowRemoved(windowId) { // event
-	await getSessionStorage();
-	globalThis.perWindowToggles.delete(windowId);
-	await saveSessionStorage();
+function windowRemoved(windowId) { // event
+	setTimeout(async function() {
+		await getSessionStorage();
+		await globalThis.perWindowToggles.delete(windowId);
+		await saveSessionStorage();
+		console.log(`Window ${windowId} was closed!`);
+	}, 200);
 }
 
 async function windowFocusChanged(windowId) { // event
@@ -148,7 +151,9 @@ async function saveSessionStorage() {
 async function getToggles() {
 	const settings = await browser.storage.local.get();
 	let storage = await browser.storage.session.get();
+
 	let preTogglesUsed = false;
+	let winTogglesUsed = false;
 
 	let toggles = [];
   for (let i = 0; i < settings.toggles.length; i++) {
@@ -156,14 +161,13 @@ async function getToggles() {
 		// return toggles from previous window
 		if (settings.useLastWindowToggles && secondToLastWindowId != undefined) {
     	toggles.push({ state: globalThis.perWindowToggles.get(secondToLastWindowId)[i].state });
-			console.log(`Used toggle from window ${secondToLastWindowId}!`);
+			winTogglesUsed = true;
 		}
 
 		// return toggles from previous session
 		else if (settings.preToggles != undefined && settings.keepToggles == true && storage.preTogglesUsed != true) {
 			toggles.push({ state: settings.preToggles[i].state });
 			preTogglesUsed = true;
-			console.log(`Used toggle from previous session!`);
 		}
 
 		// return defaults
@@ -172,9 +176,14 @@ async function getToggles() {
 		}
 	}
 
-	if (preTogglesUsed) 
+	if (winTogglesUsed)
+		console.log(`Used toggles from window ${secondToLastWindowId}!`);
+
+	if (preTogglesUsed) {
 		storage.preTogglesUsed = preTogglesUsed;
 		await browser.storage.session.set(storage);
+		console.log(`Used toggles from previous session!`);
+	}
 
 	return toggles;
 }
