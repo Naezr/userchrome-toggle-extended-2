@@ -15,7 +15,7 @@
 	},
 
 	"action": {
-		"default_title": "Toggle css style",
+		"default_title": "Userchrome Toggle Extended",
 		"default_icon": "icons/uct-alt-logo.svg",
 		"default_area": "navbar"
 	},

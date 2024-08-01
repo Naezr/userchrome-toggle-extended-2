@@ -109,6 +109,9 @@ async function saveSettings() {
 		settings.toggles[i].default_state = document.getElementById(`toggle-default-state-${id}`).checked;
 	}
 
+	// update toolbar button
+	browser.runtime.sendMessage({type: 'updButton'});
+
 	// push settings to local storage
 	await browser.storage.local.set(settings);
 	console.log('Settings saved!');

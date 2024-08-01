@@ -1,0 +1,22 @@
+@media (prefers-color-scheme: dark) {
+	body{
+		--bg: #23222B;
+		--bg-2: #343440;
+		--text: #f7f7f7;
+	}
+}
+
+@media (prefers-color-scheme: light) {
+	body{
+		--bg: #ffffff;
+		--bg-2: #E6E6E6;
+		--text: #181818;
+	}
+}
+
+body{
+	background-color: var(--bg);
+	color: var(--text);
+	font-family: sans-serif;
+	user-select: none;
+}

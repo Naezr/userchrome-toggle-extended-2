@@ -75,6 +75,27 @@ async function initSettings() {
 	console.log('Settings initialized!');
 }
 
+// toolbar button initialization
+async function initButton() {
+	const settings = await browser.storage.local.get();
+	const togglesEnabled = settings.toggles.filter(toggle => toggle.enabled).length;
+
+	if (togglesEnabled == 1) {
+		let toggle = settings.toggles.find(toggle => toggle.enabled);
+		browser.action.setTitle({ title: `Toggle "${toggle.name}"` });
+		browser.action.setPopup({ popup: null });
+		console.log("Toolbar button mode is set to single toggle!")
+
+	} else if (togglesEnabled > 1) {
+		browser.action.setTitle({ title: `Show toggles` });
+		browser.action.setPopup({ popup: "popup/popup.html" });
+		console.log("Toolbar button node is set to popup!");
+
+	} else {
+		console.log("Toolbar button mode is not set!");
+	}
+}
+
 // windows handling
 async function windowCreated(window) {
 	await windowFocusChanged(window.id);
@@ -248,16 +269,25 @@ function handleMessage(message, sender, sendResponse) { // event
 		sendResponse( {
 				content: defaultSettings
 		});
-
+	
+	// handle request to update button
+	if (message.type == 'updButton') initButton();
 }
 
-// main
-
+// init
 initSettings();
+initButton();
 
 // add listeners
 browser.commands.onCommand.addListener(userToggle);    // listen hotkeys
 browser.runtime.onMessage.addListener(handleMessage);  // listen messages
 
+// toolbar button click listener (fired if popup disabled)
+browser.action.onClicked.addListener(async function() {
+	const settings = await browser.storage.local.get();
+	userToggle(settings.toggles.findIndex(toggle => toggle.enabled) + 1);
+});
+
+// window handling listeners
 browser.windows.onCreated.addListener(windowCreated);
 browser.windows.onFocusChanged.addListener(windowFocusChanged);
