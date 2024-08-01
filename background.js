@@ -76,16 +76,8 @@ async function initSettings() {
 }
 
 // windows handling
-async function windowCreated(window) { // event
-	await getSessionStorage();
-	await updateIds(window.id);
-	
-	// init toggles for new window
-  globalThis.perWindowToggles.set(window.id, await getToggles());
-	await updateTitlePrefixes();
-	
-	console.log(`Window ${windowId} created!`);
-	await saveSessionStorage();
+async function windowCreated(window) {
+	await windowFocusChanged(window.id);
 }
 
 async function windowFocusChanged(windowId) { // event
