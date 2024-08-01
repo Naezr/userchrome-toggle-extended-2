@@ -88,15 +88,6 @@ async function windowCreated(window) { // event
 	await saveSessionStorage();
 }
 
-function windowRemoved(windowId) { // event
-	setTimeout(async function() {
-		await getSessionStorage();
-		await globalThis.perWindowToggles.delete(windowId);
-		await saveSessionStorage();
-		console.log(`Window ${windowId} was closed!`);
-	}, 200);
-}
-
 async function windowFocusChanged(windowId) { // event
 	if (windowId === browser.windows.WINDOW_ID_NONE) return;
 	const settings = await browser.storage.local.get();
@@ -248,6 +239,10 @@ async function updateTitlePrefixes() {
 
 		browser.windows.update(windowId, {
 			titlePreface: titlePrefix
+		}).catch((error) => {
+			globalThis.perWindowToggles.delete(windowId);
+			saveSessionStorage();
+			console.log('Deleted non-existent id!');
 		});
 	});
 }
@@ -272,5 +267,4 @@ browser.commands.onCommand.addListener(userToggle);    // listen hotkeys
 browser.runtime.onMessage.addListener(handleMessage);  // listen messages
 
 browser.windows.onCreated.addListener(windowCreated);
-browser.windows.onRemoved.addListener(windowRemoved);
 browser.windows.onFocusChanged.addListener(windowFocusChanged);
