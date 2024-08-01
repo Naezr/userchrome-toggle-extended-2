@@ -228,7 +228,8 @@ async function updateTitlePrefixes() {
 				if (!settings.allowMultiple) break;
 			}
 		}
-
+		
+		// apply toggles / delete non-existent window id
 		browser.windows.update(windowId, {
 			titlePreface: titlePrefix
 		}).catch((error) => {
