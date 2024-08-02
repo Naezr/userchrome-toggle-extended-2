@@ -261,6 +261,12 @@ async function updateTitlePrefixes() {
 	});
 }
 
+async function onButtonClicked(tab) {
+	const settings = await browser.storage.local.get();
+	await windowFocusChanged(tab.windowId);
+	userToggle(settings.toggles.findIndex(toggle => toggle.enabled) + 1);
+}
+
 // message handling
 function handleMessage(message, sender, sendResponse) { // event
 
@@ -281,13 +287,6 @@ initButton();
 // add listeners
 browser.commands.onCommand.addListener(userToggle);    // listen hotkeys
 browser.runtime.onMessage.addListener(handleMessage);  // listen messages
-
-// toolbar button click listener (fired if popup disabled)
-browser.action.onClicked.addListener(async function() {
-	const settings = await browser.storage.local.get();
-	userToggle(settings.toggles.findIndex(toggle => toggle.enabled) + 1);
-});
-
-// window handling listeners
-browser.windows.onCreated.addListener(windowCreated);
-browser.windows.onFocusChanged.addListener(windowFocusChanged);
+browser.action.onClicked.addListener(onButtonClicked); // toolbar button click
+browser.windows.onCreated.addListener(windowCreated);  // window creating
+browser.windows.onFocusChanged.addListener(windowFocusChanged); // window focus
