@@ -261,7 +261,8 @@ async function updateTitlePrefixes() {
 	});
 }
 
-async function onButtonClicked(tab) {
+// toolbar button click handling (fired if popup disabled) 
+async function onButtonClicked(tab) { // event
 	const settings = await browser.storage.local.get();
 	await windowFocusChanged(tab.windowId);
 	userToggle(settings.toggles.findIndex(toggle => toggle.enabled) + 1);
@@ -277,7 +278,10 @@ function handleMessage(message, sender, sendResponse) { // event
 		});
 	
 	// handle request to update button
-	if (message.type == 'updButton') initButton();
+	else if (message.type == 'updButton') initButton();
+
+	// handle toggle request
+	else if (message.type == 'toggle') userToggle(message.name);
 }
 
 // init

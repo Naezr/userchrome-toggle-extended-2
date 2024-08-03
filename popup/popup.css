@@ -20,3 +20,34 @@ body{
 	font-family: sans-serif;
 	user-select: none;
 }
+
+/* header text styles */
+.main-header{
+	display: inline-block;
+	font-size: 20px;
+	margin: 0 0.65ex 0 0;
+}
+
+.shiny{
+  background: linear-gradient(to right, #3572EF, #3ABEF9, #A7E6FF, #3572EF);
+  background-size: 500% 100%;
+  animation: rainbow 13s linear infinite;
+  background-clip: text;
+  color: transparent;
+}
+
+@keyframes rainbow {
+  0%   {background-position: 0% 50%;}
+  100% {background-position: 500% 50%;}
+}
+
+#toggles-container{
+	margin-top: 5px;
+	display: flex;
+	flex-direction: column;
+}
+
+.toggle-label{
+	margin-block: 2px;
+	cursor: pointer;
+}
