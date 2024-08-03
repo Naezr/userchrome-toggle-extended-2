@@ -9,6 +9,7 @@ this.defaultSettings = {
 
 	// general
 	allowMultiple: false,
+	closePopup: false,
 	useLastWindowToggles: false,
 	keepToggles: false,
 

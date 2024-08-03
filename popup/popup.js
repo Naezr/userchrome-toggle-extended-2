@@ -45,6 +45,9 @@ async function onInputClicked(id) {
 		type: 'toggle',
 		name: id + 1
 	});
+
+	const settings = await browser.storage.local.get();
+	if (settings.closePopup) window.close();
 }
 
 document.addEventListener('DOMContentLoaded', main);

@@ -158,13 +158,14 @@ input[type="text"]{
 	width: 70px;
 }
 
-label{
+label, .general-box div{
 	display: inline-block;
 	width: -moz-available;
 	margin-block: 2px;
 }
 
-label:has(input[type="checkbox"]){
+label:has(input[type="checkbox"]),
+select {
 	cursor: pointer;
 }
 
