@@ -35,7 +35,7 @@ body{
 /* header text styles */
 .main-header{
 	display: inline-block;
-	font-size: 30px;
+	font-size: 35px;
 	margin: 0 0.65ex 0 0;
 }
 
@@ -70,18 +70,19 @@ body{
 
 #reset-button{
 	--button-color: #F8192B;
-	color: var(--light-text)
+	color: var(--light-text);
 }
 
+.apply-button:has(input[clicked])::after{content: "Applied!";}
+.reset-button:has(input[clicked])::before{content: "Reset!";}
+
 .buttons-container{
-	display: inline-block;
-	margin-top: 5px;
-	margin-bottom: 10px;
+	display: flex;
+  justify-content: space-between;
 
-	input{margin-inline-end: 4px}
-
-	&:has(#apply-button[clicked])::after{content: "Applied!";}
-	&:has(#reset-button[clicked])::after{content: "Reset!";}
+	margin-top: 10px;
+	margin-bottom: 8px;
+	padding-inline: 5px;
 }
 
 /* dropdown menus styles */
