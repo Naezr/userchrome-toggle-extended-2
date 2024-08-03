@@ -106,6 +106,16 @@ input[type="text"]{
 	padding: 3px 6px;
 }
 
+.toggle-titlepreface{
+	&:hover{background-color: color-mix(in srgb, var(--bg) 80%, transparent)}
+	outline: none !important;
+	cursor: pointer;
+	&::selection{
+		background-color: transparent;
+		color: var(--text);
+	}
+}
+
 /* toggle name input styles */
 .toggle-name-container{
 	display: flex;
@@ -165,6 +175,7 @@ label, .general-box div{
 }
 
 label:has(input[type="checkbox"]),
+label:has(.toggle-titlepreface),
 select {
 	cursor: pointer;
 }

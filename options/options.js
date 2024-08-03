@@ -44,6 +44,11 @@ async function fillFields() {
 			const userInput = prefix.value;	
 			selector.value = `:root[titlepreface*="${userInput}"]`;
 		});
+
+		selector.addEventListener('click', () => {
+			selector.select();
+			navigator.clipboard.writeText(selector.value);
+		});		
 	}
 }
 
