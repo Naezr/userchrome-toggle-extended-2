@@ -118,6 +118,7 @@ input[type="text"]{
 .toggle-prefix-label{
 	&:has(.toggle-prefix[default])::before{
 		position: absolute;
+		cursor: text;
 		margin-left: 80px;
 		margin-top: 2px;
 		opacity: 0.3;
