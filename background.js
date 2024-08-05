@@ -18,37 +18,37 @@ this.defaultSettings = {
 		{
 			name: "Style 1",
 			enabled: true,
-			prefix: '-',
+			prefix: '\u061c',
 			default_state: true
 		},
 		{
 			name: "Style 2",
 			enabled: false,
-			prefix: '=',
+			prefix: '\u200b',
 			default_state: false
 		},
 		{
 			name: "Style 3",
 			enabled: false,
-			prefix: '+',
+			prefix: '\u200c',
 			default_state: false
 		},
 		{
 			name: "Style 4",
 			enabled: false,
-			prefix: '?',
+			prefix: '\u200d',
 			default_state: false
 		},
 		{
 			name: "Style 5",
 			enabled: false,
-			prefix: '!',
+			prefix: '\u200e',
 			default_state: false
 		},
 		{
 			name: "Style 6",
 			enabled: false,
-			prefix: '/',
+			prefix: '\u200f',
 			default_state: false
 		}
 	]
