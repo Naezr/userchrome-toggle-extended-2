@@ -7,12 +7,13 @@ async function main() {
 		type: 'getDefaultSettings'
 	});
 
-	sending.then( response => {
+	await sending.then( response => {
 		globalThis.defaultSettings = response.content;
 	});
 
 	// init settings
 	await initSettings();
+	await initButtons();
 }
 
 // settings initialization
@@ -20,7 +21,6 @@ async function initSettings() {
 	await fillFields();
 	await fillCheckboxes();
 	await fillHotkeys();
-	await initButtons();
 }
 
 // filling input fields
@@ -37,12 +37,17 @@ async function fillFields() {
 		const selector = document.getElementById(`toggle-titlepreface-${i + 1}`);
 
 		let value = settings.toggles[i].prefix;
+		
+		if (value == defaultSettings.toggles[i].prefix)
+			prefix.setAttribute('default', '');
+
 		prefix.value = value;
 		selector.value = `:root[titlepreface*="${value}"]`;
 
 		prefix.addEventListener('input', () => {
 			const userInput = prefix.value;	
 			selector.value = `:root[titlepreface*="${userInput}"]`;
+			prefix.removeAttribute('default');
 		});
 
 		selector.addEventListener('click', () => {
@@ -83,6 +88,7 @@ async function initButtons() {
 	// add listeners to buttons
 	document.getElementById(`apply-button`).addEventListener('click', saveSettings);
 	document.getElementById(`reset-button`).addEventListener('click', resetSettings);
+	document.getElementById(`reload-button`).addEventListener('click', initSettings);
 
 	// add `clicked` attribute to button after click
 	const buttons = document.querySelectorAll('.button');

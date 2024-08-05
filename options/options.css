@@ -73,8 +73,16 @@ body{
 	color: var(--light-text);
 }
 
-.apply-button:has(input[clicked])::after{content: "Applied!";}
-.reset-button:has(input[clicked])::before{content: "Reset!";}
+#reload-button{
+	margin-inline: 5px;
+}
+
+.left-buttonbox:has(#apply-button[clicked])::after{content: "Applied!";}
+.right-buttonbox:has(#reset-button[clicked])::before{content: "Reset!";}
+
+div[class*="-buttonbox"]{
+	display: flex;
+}
 
 .buttons-container{
 	display: flex;
@@ -107,6 +115,21 @@ input[type="text"]{
 	padding: 3px 6px;
 }
 
+.toggle-prefix-label{
+	&:has(.toggle-prefix[default])::before{
+		position: absolute;
+		margin-left: 80px;
+		margin-top: 2px;
+		opacity: 0.3;
+	}
+
+	&:has(#toggle-prefix-1[default])::before{content: "\\u061c"}
+	&:has(#toggle-prefix-2[default])::before{content: "\\u200b"}
+	&:has(#toggle-prefix-3[default])::before{content: "\\u200c"}
+	&:has(#toggle-prefix-4[default])::before{content: "\\u200d"}
+	&:has(#toggle-prefix-5[default])::before{content: "\\u200e"}
+	&:has(#toggle-prefix-6[default])::before{content: "\\u200f"}
+}
 .toggle-titlepreface{
 	&:hover{background-color: color-mix(in srgb, var(--bg) 80%, transparent)}
 	outline: none !important;
