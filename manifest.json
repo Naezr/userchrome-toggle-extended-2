@@ -1,7 +1,7 @@
 {
 	"manifest_version": 3,
 	"name": "Userchrome Toggle Extended",
-	"version": "2.0",
+	"version": "2.0.1",
 	"description": "Allows you to toggle css styles on the fly",
   
 	"icons": {
