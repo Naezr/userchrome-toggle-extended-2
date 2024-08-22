@@ -124,7 +124,7 @@ input[type="text"]{
 		opacity: 0.3;
 	}
 
-	&:has(#toggle-prefix-1[default])::before{content: "\\u061c"}
+	&:has(#toggle-prefix-1[default])::before{content: "\\u180E"}
 	&:has(#toggle-prefix-2[default])::before{content: "\\u200b"}
 	&:has(#toggle-prefix-3[default])::before{content: "\\u200c"}
 	&:has(#toggle-prefix-4[default])::before{content: "\\u200d"}

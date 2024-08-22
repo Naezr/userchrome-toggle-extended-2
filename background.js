@@ -18,7 +18,7 @@ this.defaultSettings = {
 		{
 			name: "Style 1",
 			enabled: true,
-			prefix: '\u061c',
+			prefix: '\u180E',
 			default_state: true
 		},
 		{
